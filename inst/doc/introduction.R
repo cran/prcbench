@@ -91,7 +91,7 @@ toolname <- "xyz"
 calcfunc <- create_example_func()
 toolsetU <- create_usrtool(toolname, calcfunc)
 
-## User-defined tools can be combined with pre-defined tools
+## User-defined tools can be combined with predefined tools
 toolsetA <- create_toolset("ROCR")
 toolsetU2 <- c(toolsetA, toolsetU)
 
