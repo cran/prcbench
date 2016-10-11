@@ -3,7 +3,7 @@ prcbench
 
 [![Travis](https://img.shields.io/travis/takayasaito/prcbench.svg?maxAge=2592000)](https://travis-ci.org/takayasaito/prcbench) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/takayasaito/prcbench?branch=master&svg=true)](https://ci.appveyor.com/project/takayasaito/prcbench) [![codecov.io](https://codecov.io/github/takayasaito/prcbench/coverage.svg?branch=master)](https://codecov.io/github/takayasaito/prcbench?branch=master) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/prcbench)](https://cran.r-project.org/package=prcbench)
 
-The aim of `prcbench` is to provide a testing workbench for evaluating Precision-Recall curves under various conditions. It contains integrated interfaces for the following five tools. It also contains predefined test data sets.
+The aim of the `prcbench` package is to provide a testing workbench for evaluating precision-recall curves under various conditions. It contains integrated interfaces for the following five tools. It also contains predefined test data sets.
 
 | Tool          | Link                                                                                               |
 |---------------|----------------------------------------------------------------------------------------------------|
@@ -84,9 +84,9 @@ or
 Documentation
 -------------
 
-The package vignette - [Introduction to prcbench](https://cran.r-project.org/web/packages/prcbench/vignettes/introduction.html) - contains the descriptions of the functions with several useful examples. View the vignette with `vignette("introduction", package = "prcbench")`.
+-   Introduction to prcbench - a package vignette that contains the descriptions of the functions with several useful examples. View the vignette with `vignette("introduction", package = "prcbench")` in R or click the link on the [prcbench CRAN page](https://cran.r-project.org/package=prcbench).
 
-In addition, all the main functions have their own help pages with examples. CRAN provides a pdf version of all combined help files as a reference manual ([pdf](https://cran.r-project.org/web/packages/prcbench/prcbench.pdf)).
+-   Help pages - all the functions including the S3 generics have their own help pages with plenty of examples. View the main help page with `help(package = "prcbench")` in R. In addition, CRAN provides a pdf version of all combined help files as a reference manual on the [prcbench CRAN page](https://cran.r-project.org/package=prcbench).
 
 Examples
 --------
@@ -110,17 +110,17 @@ res <- run_benchmark(testset, toolset)
 knitr::kable(res$tab, digits = 2)
 ```
 
-| testset | toolset | toolname      |   min|    lq|    mean|  median|    uq|     max|  neval|
-|:--------|:--------|:--------------|-----:|-----:|-------:|-------:|-----:|-------:|------:|
-| b10     | auc5    | ROCR          |  2.22|  2.23|   33.18|    2.32|  2.36|  156.75|      5|
-| b10     | auc5    | AUCCalculator |  2.97|  3.48|    7.51|    3.98|  4.48|   22.65|      5|
-| b10     | auc5    | PerfMeas      |  0.19|  0.21|  110.33|    0.25|  0.32|  550.67|      5|
-| b10     | auc5    | PRROC         |  2.73|  3.32|    4.97|    3.61|  3.94|   11.25|      5|
-| b10     | auc5    | precrec       |  6.31|  6.42|   11.68|    6.51|  6.61|   32.55|      5|
+| testset | toolset | toolname      |   min|    lq|   mean|  median|    uq|     max|  neval|
+|:--------|:--------|:--------------|-----:|-----:|------:|-------:|-----:|-------:|------:|
+| b10     | auc5    | ROCR          |  2.17|  2.19|  21.36|    2.19|  2.44|   97.80|      5|
+| b10     | auc5    | AUCCalculator |  4.08|  4.82|   7.88|    5.07|  5.31|   20.11|      5|
+| b10     | auc5    | PerfMeas      |  0.12|  0.15|  80.12|    0.15|  0.18|  399.98|      5|
+| b10     | auc5    | PRROC         |  2.36|  3.06|   4.62|    3.58|  3.62|   10.48|      5|
+| b10     | auc5    | precrec       |  6.12|  6.21|  12.72|    6.26|  6.47|   38.57|      5|
 
-### Evaluation of Precision-Recall curves
+### Evaluation of precision-recall curves
 
-The `run_evalcurve` function evaluates Precision-Recall curves with predefined test datasets. The `autoplot` shows a plot with the result of the `run_evalcurve` function.
+The `run_evalcurve` function evaluates precision-recall curves with predefined test datasets. The `autoplot` shows a plot with the result of the `run_evalcurve` function.
 
 ``` r
 ## ggplot2 is necessary to use autoplot
@@ -153,9 +153,11 @@ Takaya Saito; Marc Rehmsmeier
 
 Bioinformatics 2016;
 
-doi: 10.1093/bioinformatics/btw570
+doi: [10.1093/bioinformatics/btw570](http://dx.doi.org/10.1093/bioinformatics/btw570)
 
 External links
 --------------
 
-See our website - [Classifier evaluation with imbalanced datasets](https://classeval.wordpress.com/) - for useful tips for performance evaluation on binary classifiers. In addition, we have summarized potential pitfalls of ROC plots with imbalanced datasets. See our paper - [The Precision-Recall Plot Is More Informative than the ROC Plot When Evaluating Binary Classifiers on Imbalanced Datasets](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0118432) - for more details.
+-   [Classifier evaluation with imbalanced datasets](https://classeval.wordpress.com/) - our web site that contains several pages with useful tips for performance evaluation on binary classifiers.
+
+-   [The Precision-Recall Plot Is More Informative than the ROC Plot When Evaluating Binary Classifiers on Imbalanced Datasets](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0118432) - our paper that summarized potential pitfalls of ROC plots with imbalanced datasets and advantages of using precision-recall plots instead.

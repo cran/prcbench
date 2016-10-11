@@ -1,4 +1,4 @@
-73902cecfe9a9a27a9f8928b96e10b5a *DESCRIPTION
+e1c15a3034475230350a1cdcd5ca89f9 *DESCRIPTION
 4a19b30020cf4a7d99240ecee1524c99 *NAMESPACE
 88185de45fd5817271d9f265bc083e69 *R/data_interface.R
 464f2ff792ceafdca765f8367b586ec0 *R/data_zzz.R
@@ -10,8 +10,8 @@ ba48f4c1166aad4a621c2063eceb2618 *R/main_evalcurves.R
 b447e1d65df873c65361bedef9235b09 *R/tool_interface.R
 33452587c0504d6758f10fba29da690c *R/tool_java.R
 fd0a92c496a9bcd3dac108d2b37d083c *R/tool_rlib.R
-82755a5af215e345df763acbebb6f335 *R/tool_zzz.R
-bd148b788b542e421fe935f788ae0369 *README.md
+804c4bb7670ba3c8fce2ac7c121b0e5b *R/tool_zzz.R
+a17673e3f57a2addf7aa105220c2cf84 *README.md
 1ee749e0075b053753cdd2ff5db642da *build/vignette.rds
 855926d88af64d707e899db8475dcaca *data/C1DATA.rda
 3641647a7bf8a3e4ec9e26d700a4144d *data/C2DATA.rda
@@ -20,7 +20,7 @@ cbb9abf30c287854b592f35013fbcec0 *data/C4DATA.rda
 14fb7bf8bb53f165465b725ea1f382c6 *inst/CITATION
 f50c339d8a7671cd9f694dca25b4354b *inst/doc/introduction.R
 52bc09a3e8394a86e75f12e8d3446c06 *inst/doc/introduction.Rmd
-e2ac658674f943896feea174b31ef9e7 *inst/doc/introduction.html
+dbbdbe2ffb03c5158eb441273189567d *inst/doc/introduction.html
 ebaa53540499fb1aa5b20c0aeb5c143e *inst/java/auc2.jar
 4e3082a71162db8ff8307938b77de09c *java/README.md
 3c88d9f5933d3bfb1b7b96bac1391ab0 *java/auc2/auc2.iml
@@ -61,7 +61,7 @@ c7ef25a20c0edded62014ea87809fff2 *tests/testthat/test_main_evalcurves.R
 3a6abac16b1182ded33ad73e0b61ab51 *tests/testthat/test_print.R
 43a6d4d10354e8e64e4b0872af77fbf6 *tests/testthat/test_tool_auccalc.R
 f41eafd6d3ad089cb30b44eec8799b38 *tests/testthat/test_tool_base.R
-e9c5599be65ac3f18be6cce0d4cd846d *tests/testthat/test_tool_pm.R
+c491e122428fb701dec253a3f3be46cc *tests/testthat/test_tool_pm.R
 4f106537875e7456e5440c3028fa839d *tests/testthat/test_tool_precrec.R
 21521f5294fac27d7d79abf2c3664613 *tests/testthat/test_tool_prroc.R
 86f48146b9bf57fc2a9d3e32339460b5 *tests/testthat/test_tool_rocr.R
