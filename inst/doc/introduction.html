@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="date" content="2016-10-11" />
+<meta name="date" content="2016-11-22" />
 
 <title>Introduction to prcbench</title>
 
@@ -68,7 +68,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">Introduction to prcbench</h1>
-<h4 class="date"><em>2016-10-11</em></h4>
+<h4 class="date"><em>2016-11-22</em></h4>
 
 
 
@@ -108,7 +108,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <tr class="odd">
 <td align="left">precrec</td>
 <td align="left">R</td>
-<td align="left"><a href="https://cran.r-project.org/package=precrec">CRAN</a></td>
+<td align="left"><a href="http://takayasaito.github.io/precrec">Tool web site</a>, <a href="https://cran.r-project.org/package=precrec">CRAN</a></td>
 </tr>
 </tbody>
 </table>
@@ -242,12 +242,12 @@ testset &lt;-<span class="st"> </span><span class="kw">create_testset</span>(<sp
 toolset &lt;-<span class="st"> </span><span class="kw">create_toolset</span>(<span class="dt">set_names =</span> <span class="st">&quot;auc5&quot;</span>)
 res &lt;-<span class="st"> </span><span class="kw">run_benchmark</span>(testset, toolset)
 res</code></pre></div>
-<pre><code>##   testset toolset      toolname  min   lq mean median  uq max neval
-## 1     b10    auc5          ROCR 2.14 2.16 21.0   2.16 2.3  96     5
-## 2     b10    auc5 AUCCalculator 2.06 2.71  6.2   3.14 6.0  17     5
-## 3     b10    auc5      PerfMeas 0.14 0.17 78.9   0.18 6.3 388     5
-## 4     b10    auc5         PRROC 2.62 2.63  4.3   2.66 3.2  10     5
-## 5     b10    auc5       precrec 6.19 6.23 12.0   6.30 6.4  35     5</code></pre>
+<pre><code>##   testset toolset      toolname  min   lq mean median   uq   max neval
+## 1     b10    auc5          ROCR 2.15 2.19 20.6   2.19 2.24  94.3     5
+## 2     b10    auc5 AUCCalculator 2.06 2.42  5.3   2.87 4.71  14.2     5
+## 3     b10    auc5      PerfMeas 0.12 0.13 79.3   0.14 0.14 396.0     5
+## 4     b10    auc5         PRROC 2.54 3.14  4.3   3.18 3.20   9.4     5
+## 5     b10    auc5       precrec 6.34 6.34 12.2   6.34 6.65  35.5     5</code></pre>
 </div>
 <div id="evaluation-of-precision-recall-curves" class="section level2">
 <h2>4. Evaluation of Precision-Recall curves</h2>
@@ -357,7 +357,7 @@ calcfunc &lt;-<span class="st"> </span><span class="kw">create_example_func</spa
 ##     pred &lt;- list(x = seq(0, 1, 1/length(scores)), y = seq(0, 
 ##         1, 1/length(scores)), auc = 0.5)
 ## }
-## &lt;environment: 0x9a5eb90&gt;</code></pre>
+## &lt;environment: 0xc931f60&gt;</code></pre>
 <p>The <code>create_testset</code> function produces a <code>testset</code> as either <code>TestDataB</code> or <code>TestDataC</code> object. See the help files of the R6 classes - <code>help(TestDataB)</code> and <code>help(TestDataC)</code> - for the methods that can be used with the Precision-Recall calculation.</p>
 </div>
 </div>
@@ -377,7 +377,7 @@ res &lt;-<span class="st"> </span><span class="kw">run_benchmark</span>(testsetB
 res</code></pre></div>
 <pre><code>##   testset toolset toolname min  lq mean median  uq max neval
 ## 1      b5    ROCR     ROCR 2.2 2.2  2.3    2.2 2.2 2.7     5
-## 2      b5 precrec  precrec 5.8 5.8  5.9    5.8 5.8 6.3     5</code></pre>
+## 2      b5 precrec  precrec 5.8 5.9  6.0    5.9 5.9 6.4     5</code></pre>
 </div>
 <div id="create-a-user-defined-test-dataset-for-curve-evaluation" class="section level3">
 <h3>Create a user-defined test dataset for curve evaluation</h3>
