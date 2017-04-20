@@ -110,13 +110,13 @@ res <- run_benchmark(testset, toolset)
 knitr::kable(res$tab, digits = 2)
 ```
 
-| testset | toolset | toolname      |   min|    lq|   mean|  median|    uq|     max|  neval|
-|:--------|:--------|:--------------|-----:|-----:|------:|-------:|-----:|-------:|------:|
-| b10     | auc5    | ROCR          |  2.22|  2.28|  20.53|    2.28|  2.44|   93.43|      5|
-| b10     | auc5    | AUCCalculator |  2.18|  2.85|   5.47|    3.14|  5.07|   14.10|      5|
-| b10     | auc5    | PerfMeas      |  0.09|  0.09|  78.95|    0.11|  0.11|  394.33|      5|
-| b10     | auc5    | PRROC         |  2.50|  2.86|   4.15|    2.86|  2.98|    9.55|      5|
-| b10     | auc5    | precrec       |  6.26|  6.31|  12.02|    6.34|  6.43|   34.75|      5|
+| testset | toolset | toolname      |   min|    lq|    mean|  median|     uq|     max|  neval|
+|:--------|:--------|:--------------|-----:|-----:|-------:|-------:|------:|-------:|------:|
+| b10     | auc5    | ROCR          |  2.25|  2.40|   14.99|    2.41|   2.68|   65.20|      5|
+| b10     | auc5    | AUCCalculator |  3.17|  3.50|    6.48|    3.85|   3.91|   17.99|      5|
+| b10     | auc5    | PerfMeas      |  0.10|  0.11|  106.85|    0.12|   0.13|  533.77|      5|
+| b10     | auc5    | PRROC         |  2.41|  2.44|    4.05|    2.46|   2.50|   10.45|      5|
+| b10     | auc5    | precrec       |  9.16|  9.41|   14.48|   10.49|  10.52|   32.81|      5|
 
 ### Evaluation of precision-recall curves
 
@@ -142,7 +142,7 @@ scores2 <- run_evalcurve(testset, toolset)
 autoplot(scores2, base_plot = FALSE)
 ```
 
-![](https://rawgit.com/takayasaito/prcbench/master/README_files/figure-markdown_github/unnamed-chunk-5-2.png)
+![](https://rawgit.com/takayasaito/prcbench/master/README_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
 Citation
 --------
@@ -151,7 +151,7 @@ Citation
 
 Takaya Saito; Marc Rehmsmeier
 
-Bioinformatics 2016;
+Bioinformatics 2017; 33 (1): 145-147.
 
 doi: [10.1093/bioinformatics/btw570](https://doi.org/10.1093/bioinformatics/btw570)
 
