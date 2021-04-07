@@ -1,6 +1,6 @@
-f20b2a94ff9d9aea93d4c31ee79fa9ac *DESCRIPTION
+ea2a73a970e15f42ca2f70758fd670ec *DESCRIPTION
 06b2ef7fb7db698588e1b54806a5e9fe *NAMESPACE
-258bea4eed4c9dc4d1db43ccdfc7f24a *NEWS.md
+ece88bce12173cf72708e493d6376914 *NEWS.md
 ba7d92b98c9dc642573098b44a46ab7a *R/data_interface.R
 ac5639340f7eb04af80abb353adcf516 *R/data_zzz.R
 39ff9a74e4c6962161f4f0bd1da6feb5 *R/g_autoplot.R
@@ -12,16 +12,16 @@ a7af108bed7360e869b324fd6757fd26 *R/main_evalcurves.R
 d4c4cb52de51b2c617d64fe3edf40f6a *R/tool_java.R
 909550a835c207f6b3f8dc592d60a8d4 *R/tool_rlib.R
 467fca018c3c3e78681cc7db9137e572 *R/tool_zzz.R
-440fdb15f7cd856440793b973c5b50cc *README.md
-e7785c21907b4ed03faf47d80298f48c *build/vignette.rds
+c3628dfd75c8608e05ea68108a1fe0b9 *README.md
+84686e0098af7b41102e36fe01d0b44a *build/vignette.rds
 855926d88af64d707e899db8475dcaca *data/C1DATA.rda
 3641647a7bf8a3e4ec9e26d700a4144d *data/C2DATA.rda
 037399b7380ad53583a6c86898dd7961 *data/C3DATA.rda
 cbb9abf30c287854b592f35013fbcec0 *data/C4DATA.rda
-1760485d5248358da79c0f9bbb97ad46 *inst/CITATION
+7c55ac9ea590c87d7eeccc6f10896c1f *inst/CITATION
 f878a22073f51f7a0b82606b0167bb1a *inst/doc/introduction.R
-baa9999187cc747a908b8e06e1e3ec52 *inst/doc/introduction.Rmd
-84aa9321eb26fa07da799abdf8b25e3f *inst/doc/introduction.html
+166674fc90f624cbaad2772f174c75d5 *inst/doc/introduction.Rmd
+f95cb6e596f63c00ec532d005a6e83d8 *inst/doc/introduction.html
 ebaa53540499fb1aa5b20c0aeb5c143e *inst/java/auc2.jar
 4e3082a71162db8ff8307938b77de09c *java/README.md
 b50cdbe336bc74ff2b8d41ecf317ce45 *java/auc2/bin/auc2/AUCWrapper.class
@@ -48,6 +48,7 @@ a7e6b4f235f1c66367108af0b38223db *man/create_example_func.Rd
 2eb76b077a73a18e30857fa88c4f5573 *man/create_usrdata.Rd
 c1e16e5c1a7f88f320d229750bdbbb45 *man/create_usrtool.Rd
 e9e474073d701d031f5e104cba9bddde *man/figures/logo.png
+0da7d8119f6eb768849e4f5091946e9e *man/figures/logo.svg
 fdda823752b307943065f3f4de8dc92f *man/prcbench.Rd
 ab5d245ebf62bb9802b48c5a199079af *man/run_benchmark.Rd
 0b39c80ecf3627313479f46894cc18c3 *man/run_evalcurve.Rd
@@ -68,4 +69,4 @@ c491e122428fb701dec253a3f3be46cc *tests/testthat/test_tool_pm.R
 86f48146b9bf57fc2a9d3e32339460b5 *tests/testthat/test_tool_rocr.R
 ab1633a96cc671cc6e97c018bd140f1a *tests/testthat/test_tool_tools.R
 e58e359edc355a4e9346fd1095d0901b *tests/testthat/test_tool_userd.R
-baa9999187cc747a908b8e06e1e3ec52 *vignettes/introduction.Rmd
+166674fc90f624cbaad2772f174c75d5 *vignettes/introduction.Rmd
