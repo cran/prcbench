@@ -6,18 +6,9 @@ toolsetA <- create_toolset("ROCR")
 
 ## Multiple tools
 toolsetB <- create_toolset(c("PerfMeas", "PRROC"))
-                           
+
 ## Tool sets can be manually combined to a single set
 toolsetAB <- c(toolsetA, toolsetB)
-
-## -----------------------------------------------------------------------------
-library(prcbench)
-
-## A single tool - lower case
-toolsetA2 <- create_toolset("rocr")
-
-## Multiple tools - lower case and partially matched 
-toolsetB2 <- create_toolset(c("perf", "prr"))
 
 ## -----------------------------------------------------------------------------
 ## Use 'set_names'
@@ -25,19 +16,6 @@ toolsetC <- create_toolset(set_names = "auc5")
 
 ## Multiple sets are automatically combined to a single set
 toolsetD <- create_toolset(set_names = c("auc5", "crv4"))
-
-## -----------------------------------------------------------------------------
-## A balanced data set with 50 positives and 50 negatives
-testset1A <- create_testset("bench", "b100")
-
-## An imbalanced data set with 2500 positives and 7500 negatives
-testset1B <- create_testset("bench", "i10k")
-
-## Test data sets can be manually combined to a single set
-testset1AB <- c(testset1A, testset1B)
-
-## Multiple sets are automatically combined to a single set
-testset1C <- create_testset("bench", c("i10", "b10"))
 
 ## -----------------------------------------------------------------------------
 ## C1 test set
@@ -53,14 +31,20 @@ testset2AB <- c(testset2A, testset2B)
 testset2C <- create_testset("curve", c("c1", "c2"))
 
 ## -----------------------------------------------------------------------------
-## Run microbenchmark for aut5 on b10
-testset <- create_testset("bench", "b10")
-toolset <- create_toolset(set_names = "auc5")
-res <- run_benchmark(testset, toolset)
-res
+## A balanced data set with 50 positives and 50 negatives
+testset1A <- create_testset("bench", "b100")
+
+## An imbalanced data set with 2500 positives and 7500 negatives
+testset1B <- create_testset("bench", "i10k")
+
+## Test data sets can be manually combined to a single set
+testset1AB <- c(testset1A, testset1B)
+
+## Multiple sets are automatically combined to a single set
+testset1C <- create_testset("bench", c("i10", "b10"))
 
 ## -----------------------------------------------------------------------------
-## Evaluate Precision-Recall curves for ROCR and precrec with c1 test set
+## Evaluate precision-recall curves for ROCR and precrec with c1 test set
 testset <- create_testset("curve", "c1")
 toolset <- create_toolset(c("ROCR", "precrec"))
 scores <- run_evalcurve(testset, toolset)
@@ -86,7 +70,14 @@ scores2 <- run_evalcurve(testset, toolset)
 autoplot(scores2, base_plot = FALSE)
 
 ## -----------------------------------------------------------------------------
-## Create a new tool set for 'xyz' 
+## Run microbenchmark for aut5 on b10
+testset <- create_testset("bench", "b10")
+toolset <- create_toolset(set_names = "auc5")
+res <- run_benchmark(testset, toolset)
+res
+
+## -----------------------------------------------------------------------------
+## Create a new tool set for 'xyz'
 toolname <- "xyz"
 calcfunc <- create_example_func()
 toolsetU <- create_usrtool(toolname, calcfunc)
@@ -107,25 +98,29 @@ calcfunc <- create_example_func()
 print(calcfunc)
 
 ## -----------------------------------------------------------------------------
-## Create a test dataset 'b5' for benchmarking
-testsetB <- create_usrdata("bench", scores = c(0.1, 0.2), labels = c(1, 0),
-                           tsname = "b5")
-
-## -----------------------------------------------------------------------------
-## Run microbenchmark for ROCR and precrec on a predefined test dataset
-toolset <- create_toolset(c("ROCR", "precrec"))
-res <- run_benchmark(testsetB, toolset)
-res
-
-## -----------------------------------------------------------------------------
 ## Create a test dataset 'c5' for benchmarking
-testsetC <- create_usrdata("curve", scores = c(0.1, 0.2), labels = c(1, 0),
-                           tsname = "c5", base_x = c(0.0, 1.0), 
-                           base_y = c(0.0, 0.5))
+testsetC <- create_usrdata("curve",
+  scores = c(0.1, 0.2), labels = c(1, 0),
+  tsname = "c5", base_x = c(0.0, 1.0),
+  base_y = c(0.0, 0.5)
+)
 
 ## ---- fig.width=7, warning=FALSE, fig.show='hold'-----------------------------
 ## Run curve evaluation for ROCR and precrec on a predefined test dataset
 toolset2 <- create_toolset(c("ROCR", "precrec"))
 scores2 <- run_evalcurve(testsetC, toolset2)
 autoplot(scores2, base_plot = FALSE)
+
+## -----------------------------------------------------------------------------
+## Create a test dataset 'b5' for benchmarking
+testsetB <- create_usrdata("bench",
+  scores = c(0.1, 0.2), labels = c(1, 0),
+  tsname = "b5"
+)
+
+## -----------------------------------------------------------------------------
+## Run microbenchmark for ROCR and precrec on a predefined test dataset
+toolset <- create_toolset(c("ROCR", "precrec"))
+res <- run_benchmark(testsetB, toolset)
+res
 

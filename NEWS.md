@@ -1,3 +1,19 @@
+# prcbench 1.1.8
+
+* Use new R setup configurations of GitHub actions
+
+# prcbench 1.1.3
+
+* Use patchwork to combine multiple ggplots
+
+* Use styler and lintr to reformat R source files
+
+* Improve readme and introduction
+
+# prcbench 1.1.2
+
+* Update package sticker and favicons
+
 # prcbench 1.1.1
 
 * Use const unsigned int for index variable in PermMeas Rcpp code
