@@ -1,3 +1,7 @@
+# prcbench 1.1.10
+
+* Stop using unsigned int as index in Rcpp
+
 # prcbench 1.1.8
 
 * Use new R setup configurations of GitHub actions
@@ -16,7 +20,7 @@
 
 # prcbench 1.1.1
 
-* Use const unsigned int for index variable in PermMeas Rcpp code
+* Use const unsigned int for index variable in PerfMeas Rcpp code
 
 # prcbench 1.1.0
 

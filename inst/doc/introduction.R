@@ -54,7 +54,7 @@ scores
 ## Print all results
 print(scores, data_type = "all")
 
-## ---- fig.width=7, warning=FALSE, fig.show='hold'-----------------------------
+## ----fig.width=7, warning=FALSE, fig.show='hold'------------------------------
 ## ggplot2 is necessary to use autoplot
 library(ggplot2)
 
@@ -86,7 +86,7 @@ toolsetU <- create_usrtool(toolname, calcfunc)
 toolsetA <- create_toolset("ROCR")
 toolsetU2 <- c(toolsetA, toolsetU)
 
-## ---- fig.width=7, warning=FALSE, fig.show='hold'-----------------------------
+## ----fig.width=7, warning=FALSE, fig.show='hold'------------------------------
 ## Curve evaluation
 testset3 <- create_testset("curve", "c2")
 scores3 <- run_evalcurve(testset3, toolsetU2)
@@ -105,7 +105,7 @@ testsetC <- create_usrdata("curve",
   base_y = c(0.0, 0.5)
 )
 
-## ---- fig.width=7, warning=FALSE, fig.show='hold'-----------------------------
+## ----fig.width=7, warning=FALSE, fig.show='hold'------------------------------
 ## Run curve evaluation for ROCR and precrec on a predefined test dataset
 toolset2 <- create_toolset(c("ROCR", "precrec"))
 scores2 <- run_evalcurve(testsetC, toolset2)
