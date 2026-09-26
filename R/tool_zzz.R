@@ -14,7 +14,8 @@
 #'
 #' @seealso \code{\link{ToolROCR}}, \code{\link{ToolAUCCalculator}},
 #'   \code{\link{ToolPerfMeas}}, \code{\link{ToolPRROC}},
-#'   and \code{\link{Toolprecrec}} are derived from this class.
+#'   \code{\link{Toolprecrec}}, \code{\link{Toolyardstick}}, and
+#'   \code{\link{Toolsklearn}} are derived from this class.
 #'   \code{\link{create_toolset}} for creating a list of tools.
 #'
 #' @docType class
@@ -545,5 +546,161 @@ Toolprecrec <- R6::R6Class(
       .precrec_wrapper(testset, calc_auc, store_res, private$x_bins)
     },
     x_bins = 1000
+  )
+)
+
+#' Toolyardstick
+#'
+#' @description
+#' \code{R6} class of the yardstick tool
+#'
+#' @details
+#' \code{Toolyardstick} is a wrapper class for
+#' the \href{https://yardstick.tidymodels.org/}{yardstick} tool,
+#' which is an R library of the tidymodels ecosystem that provides
+#' calculations of various model performance measures.
+#'
+#' @seealso This class is derived from \code{\link{ToolIFBase}}.
+#'    \code{\link{create_toolset}} for creating a list of tools.
+#'
+#' @examples
+#' ## Initialization
+#' toolyardstick <- Toolyardstick$new()
+#'
+#' ## Show object info
+#' toolyardstick
+#'
+#' ## create_toolset should be used for benchmarking and curve evaluation
+#' toolyardstick2 <- create_toolset("yardstick")
+#'
+#' @docType class
+#' @format An \code{R6} class object.
+#' @export
+Toolyardstick <- R6::R6Class(
+  "Toolyardstick",
+  inherit = ToolIFBase,
+  private = list(toolname = "yardstick", f_wrapper = .yardstick_wrapper)
+)
+
+#' Toolsklearn
+#'
+#' @description
+#' \code{R6} class of the scikit-learn tool
+#'
+#' @details
+#' \code{Toolsklearn} is a wrapper class for the precision-recall curve
+#'   calculation of
+#'   \href{https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html}{scikit-learn},
+#'   which is a machine learning library for Python.
+#'
+#' The calculation is performed by a standalone Python module that is bundled
+#'   with \code{prcbench} and derived from the scikit-learn source code. As a
+#'   result, scikit-learn itself is not required, but \code{reticulate},
+#'   a working Python installation, and \code{numpy} are. The tool can be
+#'   created without them, whereas the actual calculation cannot be performed.
+#'   In that case the tool returns a flat dummy curve instead of raising an
+#'   error, in the same way as \code{\link{ToolAUCCalculator}} does without
+#'   \code{rJava}, so that the predefined tool sets keep working on a machine
+#'   without Python.
+#'
+#' Initialising Python imports \code{numpy}, and the BLAS library behind
+#'   \code{numpy} starts a thread pool sized to the number of cores. Those
+#'   threads cost CPU time that the import itself never spends, so the pool is
+#'   capped to two threads while the import runs. Set \code{OMP_NUM_THREADS},
+#'   \code{OPENBLAS_NUM_THREADS}, \code{MKL_NUM_THREADS}, or
+#'   \code{NUMEXPR_NUM_THREADS} before the first tool is created to choose the
+#'   size of the pool instead.
+#'
+#' Two AUC calculation methods are available. \code{aucType = 1} uses average
+#'   precision, which is the summary scikit-learn recommends for
+#'   precision-recall curves, whereas \code{aucType = 2} uses the trapezoidal
+#'   rule. The scikit-learn documentation discourages the use of the
+#'   trapezoidal rule for precision-recall curves.
+#'
+#' Timings of this tool are not comparable with those of the tools written in
+#'   R. Every call crosses the R/Python boundary and converts the input and
+#'   output vectors, and \code{\link{run_benchmark}} counts that overhead as
+#'   part of the measurement. On a small test set it often dominates the curve
+#'   calculation itself. The accuracy evaluation of
+#'   \code{\link{run_evalcurve}} is unaffected.
+#'
+#' @seealso This class is derived from \code{\link{ToolIFBase}}.
+#'    \code{\link{create_toolset}} for creating a list of tools.
+#'
+#' @examples
+#' ## Initialization
+#' toolsklearn <- Toolsklearn$new()
+#'
+#' ## Show object info
+#' toolsklearn
+#'
+#' ## create_toolset should be used for benchmarking and curve evaluation
+#' toolsklearn2 <- create_toolset("sklearn")
+#'
+#' @docType class
+#' @format An \code{R6} class object.
+#' @export
+Toolsklearn <- R6::R6Class(
+  "Toolsklearn",
+  inherit = ToolIFBase,
+  public = list(
+    #' @description
+    #' Default class initialization method.
+    #' @param ... set value for \code{drop_intermediate}, \code{aucType}.
+    initialize = function(...) {
+      private$set_def_params(...)
+
+      arglist <- list(...)
+      if (length(arglist) > 0) {
+        if ("drop_intermediate" %in% names(arglist)) {
+          private$drop_intermediate <- arglist[["drop_intermediate"]]
+        }
+        if ("aucType" %in% names(arglist)) {
+          private$aucType <- arglist[["aucType"]]
+        }
+      }
+      private$available <- .sklearn_available()
+    },
+
+    #' @description
+    #' A Boolean value to specify whether suboptimal thresholds are dropped.
+    #' @param val TRUE: drop, FALSE: keep.
+    set_drop_intermediate = function(val) {
+      private$drop_intermediate <- val
+    },
+
+    #' @description
+    #' Set the AUC calculation method
+    #' @param val 1: average precision, 2: trapezoidal rule
+    set_aucType = function(val) {
+      private$aucType <- val
+    }
+  ),
+  private = list(
+    toolname = "sklearn",
+    # Set by initialize. The tool stays quiet when Python is missing and
+    # returns a flat dummy curve, because run_evalcurve already reports that
+    # curve as a failed test item and a message would break expect_silent.
+    available = FALSE,
+    print_methods = function() {
+      cat("                          set_drop_intermediate(val)\n")
+      cat("                          set_aucType(val)\n")
+    },
+    f_wrapper = function(testset, calc_auc, store_res) {
+      if (private$available) {
+        .sklearn_wrapper(
+          testset, calc_auc, store_res, private$drop_intermediate,
+          private$aucType
+        )
+      } else if (store_res) {
+        x <- seq(0.0, 1.0, 0.1)
+        y <- rep(0.5, length(x))
+        list(x = x, y = y, auc = 0.5)
+      } else {
+        NULL
+      }
+    },
+    drop_intermediate = FALSE,
+    aucType = 1
   )
 )

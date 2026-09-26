@@ -9,16 +9,34 @@
 
 The aim of the `prcbench` package is to provide a testing workbench for
 evaluating precision-recall curves under various conditions. It contains
-integrated interfaces for the following five tools. It also contains
+integrated interfaces for the following seven tools. It also contains
 predefined test data sets.
 
-| Tool | Language | Link |
-|:---|:---|:---|
-| precrec | R | [Tool web site](https://evalclass.github.io/precrec/), [CRAN](https://cran.r-project.org/package=precrec) |
-| ROCR | R | [Tool web site](https://ipa-tys.github.io/ROCR/), [CRAN](https://cran.r-project.org/package=ROCR) |
-| PRROC | R | [CRAN](https://cran.r-project.org/package=PRROC) |
-| AUCCalculator | Java | [Tool web site](http://mark.goadrich.com/programs/AUC/) |
-| PerfMeas | R | [CRAN](https://cran.r-project.org/package=PerfMeas) |
+| Tool          | Language | Link                                                                                                           |
+|:--------------|:---------|:---------------------------------------------------------------------------------------------------------------|
+| precrec       | R        | [Tool web site](https://evalclass.github.io/precrec/), [CRAN](https://cran.r-project.org/package=precrec)      |
+| ROCR          | R        | [Tool web site](https://ipa-tys.github.io/ROCR/), [CRAN](https://cran.r-project.org/package=ROCR)              |
+| PRROC         | R        | [CRAN](https://cran.r-project.org/package=PRROC)                                                               |
+| AUCCalculator | Java     | [Tool web site](http://mark.goadrich.com/programs/AUC/)                                                        |
+| PerfMeas      | R        | [CRAN](https://cran.r-project.org/package=PerfMeas)                                                            |
+| yardstick     | R        | [Tool web site](https://yardstick.tidymodels.org/), [CRAN](https://cran.r-project.org/package=yardstick)       |
+| sklearn       | Python   | [Tool web site](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html) |
+
+The `sklearn` tool uses a standalone Python module bundled with
+`prcbench` and derived from the scikit-learn source, so scikit-learn
+itself is not required. It does need the `reticulate` package, Python
+and `numpy`. Without them it returns a flat dummy curve instead of
+raising an error, so the predefined tool sets that contain it stay
+usable.
+
+**Timings of `sklearn` are not comparable with those of the R tools.**
+Every call crosses the R/Python boundary and converts the input and
+output vectors, and that overhead is counted as part of the measurement.
+It often dominates the curve calculation itself on small test sets. Use
+`run_benchmark` to compare the R tools with each other, and read the
+`sklearn` row as the cost of calling Python from R rather than as the
+speed of the scikit-learn algorithm. Curve accuracy from `run_evalcurve`
+is unaffected.
 
 **Disclaimer**: `prcbench` was originally develop to help our
 [precrec](https://CRAN.R-project.org/package=precrec) library in order
@@ -30,7 +48,7 @@ with extra functionality.
 `prcbench` uses pre-defined test sets to help evaluate the accuracy of
 precision-recall curves.
 
-1.  `create_toolset`: creates objects of different tools for testing (5
+1.  `create_toolset`: creates objects of different tools for testing (7
     different tools)
 2.  `create_testset`: selects pre-defined data sets (c1, c2, and c3)
 3.  `run_evalcurve`: evaluates the selected tools on the simulation data
@@ -40,11 +58,13 @@ precision-recall curves.
 ## Load library
 library(prcbench)
 
-## Plot base points and the result of 5 tools on pre-defined test sets (c1, c2, and c3)
-toolset <- create_toolset(c("precrec", "ROCR", "AUCCalculator", "PerfMeas", "PRROC"))
+## Plot base points and the result of 7 tools on pre-defined test sets (c1, c2, and c3)
+toolset <- create_toolset(c(
+  "precrec", "ROCR", "AUCCalculator", "PerfMeas", "PRROC", "yardstick", "sklearn"
+))
 testset <- create_testset("curve", c("c1", "c2", "c3"))
 scores1 <- run_evalcurve(testset, toolset)
-autoplot(scores1, ncol = 3, nrow = 2)
+autoplot(scores1, ncol = 4, nrow = 2)
 ```
 
 ![](https://raw.githubusercontent.com/evalclass/prcbench/main/README_files/figure-gfm/fig1-1.png)
@@ -62,32 +82,58 @@ of creating precision-recall curves.
 ## Load library
 library(prcbench)
 
-## Run benchmark for auc5 (5 tools) on b10 (balanced 5 positives and 5 negatives)
-toolset <- create_toolset(set_names = "auc5")
-testset <- create_testset("bench", "b10")
-res <- run_benchmark(testset, toolset)
+## Run benchmark for auc7 (7 tools) on four balanced test sets, from b100
+## (50 positives and 50 negatives) up to b100000 (50,000 and 50,000)
+toolset <- create_toolset(set_names = "auc7")
+testset <- create_testset("bench", c("b100", "b1000", "b10000", "b100000"))
+res <- run_benchmark(testset, toolset, unit = "s")
 
 print(res)
 ```
 
-| testset | toolset | toolname      |  min |   lq | mean | median |   uq |  max | neval |
-|:--------|:--------|:--------------|-----:|-----:|-----:|-------:|-----:|-----:|------:|
-| b10     | auc5    | AUCCalculator | 1.21 | 1.43 | 1.70 |   1.58 | 1.77 | 2.49 |     5 |
-| b10     | auc5    | PerfMeas      | 0.07 | 0.07 | 0.10 |   0.07 | 0.08 | 0.20 |     5 |
-| b10     | auc5    | precrec       | 4.47 | 4.52 | 4.73 |   4.75 | 4.87 | 5.04 |     5 |
-| b10     | auc5    | PRROC         | 0.17 | 0.18 | 0.23 |   0.18 | 0.19 | 0.44 |     5 |
-| b10     | auc5    | ROCR          | 1.81 | 1.81 | 1.89 |   1.82 | 1.84 | 2.16 |     5 |
+Test sets for benchmarking are named by a prefix followed by a total
+size. The prefix `b` means balanced, half positives and half negatives,
+and `i` means imbalanced, a quarter positives. The number is how many
+data points the set holds, so `b100` is 50 positives and 50 negatives,
+and `b100000` is 50,000 of each.
+
+The table holds the mean running time in seconds. Each column is one
+balanced test set, headed by the number of data points it contains.
+These numbers are recorded by `data-raw/run_readme_benchmark.R` and read
+from `data-raw/readme_benchmark.csv`, not measured while this page is
+knitted. Timing the tools on every knit made the numbers drift with
+whatever else the machine was doing, so the benchmark is re-run
+deliberately, when a wrapped tool changes or when there is a performance
+change worth showing.
+
+| Tool          |      100 |    1,000 |  10,000 | 100,000 |
+|:--------------|---------:|---------:|--------:|--------:|
+| AUCCalculator |  0.00307 |    0.011 |  0.0977 |    5.96 |
+| PerfMeas      | 0.000126 | 0.000243 | 0.00155 |  0.0147 |
+| precrec       |   0.0062 |  0.00625 | 0.00786 |   0.029 |
+| PRROC         | 0.000256 | 0.000489 | 0.00306 |  0.0359 |
+| ROCR          |  0.00206 |  0.00383 |  0.0211 |   0.238 |
+| sklearn       | 0.000519 | 0.000791 |  0.0036 |  0.0367 |
+| yardstick     |  0.00189 |   0.0025 | 0.00826 |  0.0705 |
+
+Recorded on 2026-09-25 with R version 4.6.1 (2026-06-24) on
+`x86_64-pc-linux-gnu`, 5 iterations per tool, using precrec 0.24.0, ROCR
+1.0.12, PRROC 1.4, yardstick 1.4.0.
+
+The `sklearn` row of the table includes the R/Python conversion
+overhead, so it measures the round trip rather than the scikit-learn
+algorithm. See the note above.
 
 ## Documentation
 
 - [Introduction to
-  prcbench](https://evalclass.github.io/prcbench/articles/introduction.html)
-  – a package vignette that contains the descriptions of the functions
+  prcbench](https://evalclass.github.io/prcbench/articles/introduction.html):
+  a package vignette that contains the descriptions of the functions
   with several useful examples. View the vignette with
   `vignette("introduction", package = "prcbench")` in R.
 
-- [Help pages](https://evalclass.github.io/prcbench/reference/) – all
-  the functions including the S3 generics have their own help pages with
+- [Help pages](https://evalclass.github.io/prcbench/reference/): all the
+  functions including the S3 generics have their own help pages with
   plenty of examples. View the main help page with
   `help(package = "prcbench")` in R.
 
@@ -168,13 +214,13 @@ doi:
 ## External links
 
 - [Classifier evaluation with imbalanced
-  datasets](https://classeval.wordpress.com/) – our web site that
+  datasets](https://classeval.wordpress.com/): our web site that
   contains several pages with useful tips for performance evaluation on
   binary classifiers.
 
 - [The Precision-Recall Plot Is More Informative than the ROC Plot When
   Evaluating Binary Classifiers on Imbalanced
-  Datasets](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0118432)
-  – our paper that summarized potential pitfalls of ROC plots with
+  Datasets](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0118432):
+  our paper that summarized potential pitfalls of ROC plots with
   imbalanced datasets and advantages of using precision-recall plots
   instead.

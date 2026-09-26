@@ -1,3 +1,65 @@
+# prcbench 1.1.16
+
+* Cap the numpy thread pool to two threads while the bundled Python module is
+  imported. The pool was sized to the number of cores, which made the CPU time
+  of the import several times its elapsed time
+
+# prcbench 1.1.15
+
+* Fix the help page of `create_testset`, which described the naming
+  convention of benchmark test sets the wrong way round. The prefix 'b' is a
+  balanced set and 'i' an imbalanced one. The 'r' prefix, which uses a random
+  ratio of positives, is now documented too
+
+* Show sklearn in the curve evaluation plot of the readme
+
+* Show recorded running times in the readme, as the mean of each tool on four
+  balanced test sets from 100 to 100,000 data points, instead of timing the
+  tools every time the readme is built. `data-raw/run_readme_benchmark.R`
+  records them
+
+# prcbench 1.1.14
+
+* Add the def7, auc7, and crv7 tool sets that contain all seven tools
+
+* Change the members of the def6, auc6, crv6, def5, auc5, crv5, def4, auc4,
+  and crv4 tool sets. Every predefined set now contains sklearn, and the
+  smaller sets drop PerfMeas, then AUCCalculator, then PRROC
+
+* Return a flat dummy curve from the sklearn tool when `reticulate`, Python,
+  or `numpy` is unavailable, in the same way as the AUCCalculator tool does
+  without `rJava`
+
+* Document that `run_benchmark` timings of the sklearn tool include the cost of
+  crossing the R/Python boundary and are therefore not comparable with the
+  timings of the tools written in R
+
+# prcbench 1.1.13
+
+* Add sklearn as a wrapped tool, calculated by a standalone Python module
+  bundled in `inst/python` and derived from the scikit-learn source, so
+  scikit-learn itself is not required
+
+* Require `reticulate`, Python, and `numpy` to run the sklearn tool, which is
+  requested by name with `create_toolset("sklearn")` and is not a member of
+  any predefined tool set
+
+# prcbench 1.1.12
+
+* Add yardstick as a wrapped tool
+
+* Add the def6, auc6, and crv6 tool sets that include yardstick
+
+* Regenerate the help pages with roxygen2 8.1.0
+
+# prcbench 1.1.11
+
+* Improve the readme and the introduction vignette
+
+* Regenerate the help pages with roxygen2 8.0.0
+
+* Build the pkgdown site from the main branch only
+
 # prcbench 1.1.10
 
 * Stop using unsigned int as index in Rcpp

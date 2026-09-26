@@ -13,12 +13,21 @@ tool interface, test data interface, benchmarking, and curve evaluation.
 \section{Tool interface}{
 
 The \code{\link{create_toolset}} function creates a common interface for
-  five different tools that calculate Precision-Recall curves. These tools
+  seven different tools that calculate Precision-Recall curves. These tools
   are \href{https://ipa-tys.github.io/ROCR/}{ROCR},
   \href{http://mark.goadrich.com/programs/AUC/}{AUCCalculator},
   \href{https://cran.r-project.org/package=PerfMeas}{PerfMeas},
-  \href{https://cran.r-project.org/package=PRROC}{PRROC}, and
-  \href{https://cran.r-project.org/package=precrec}{precrec}.
+  \href{https://cran.r-project.org/package=PRROC}{PRROC},
+  \href{https://cran.r-project.org/package=precrec}{precrec},
+  \href{https://yardstick.tidymodels.org/}{yardstick}, and
+  \href{https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html}{scikit-learn}.
+
+The \code{sklearn} tool is calculated by a standalone Python module that is
+  bundled with \code{prcbench} and derived from the scikit-learn source
+  code. It requires \code{reticulate}, a working Python installation and
+  \code{numpy}. Without them it returns a flat dummy curve rather than
+  raising an error, so the predefined tool sets that contain it stay
+  usable.
 
 The \code{\link{create_usrtool}} function helps users to make the same
  interface of the predefined ones for their own tools.
@@ -38,6 +47,10 @@ The \code{\link{create_usrdata}} function helps users to make their own test
 
 The \code{\link{run_benchmark}} function takes a tool set and a test data set
   and run \code{\link[microbenchmark]{microbenchmark}} for them.
+
+The timing of the \code{sklearn} tool includes the cost of crossing the
+  R/Python boundary, so it is not comparable with the timings of the tools
+  written in R.
 }
 
 \section{Curve evaluation}{
@@ -60,7 +73,13 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Takaya Saito \email{takaya.saito@outlook.com} (\href{https://orcid.org/0000-0002-0154-8452}{ORCID})
   \item Marc Rehmsmeier \email{marc.rehmsmeier@ii.uib.no} (\href{https://orcid.org/0000-0002-5021-7721}{ORCID})
+}
+
+Other contributors:
+\itemize{
+  \item The scikit-learn developers (Python code in inst/python, derived from scikit-learn (BSD-3-Clause); see inst/COPYRIGHTS) [copyright holder]
 }
 
 }
